@@ -95,7 +95,7 @@ fun Application.configureRouting() {
             val request = call.receive<AddToDoRequest>()
 
             if (request.task.isNotBlank()) {
-                toDoList.add(request.task)
+                toDoList.add(request.task.trim())
             }
 
             call.respond(ToDoResponse(toDoList))

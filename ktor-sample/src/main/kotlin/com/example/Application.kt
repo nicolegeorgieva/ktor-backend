@@ -10,6 +10,17 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlinx.serialization.Serializable
 
+fun main() {
+    val port = try {
+        System.getenv("PORT").toInt()
+    } catch (e: Exception) {
+        8080
+    }
+
+    embeddedServer(Netty, port = port, module = Application::module)
+        .start(wait = true)
+}
+
 val toDoS = mutableListOf<String>()
 
 @Serializable
@@ -26,11 +37,6 @@ data class AddToDoRequest(
 data class RemoveToDoRequest(
     val item: Int
 )
-
-fun main() {
-    embeddedServer(Netty, port = 8080, host = "0.0.0.0", module = Application::module)
-        .start(wait = true)
-}
 
 fun Application.module() {
     install(ContentNegotiation) {

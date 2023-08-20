@@ -1,1 +1,1 @@
-web: ./build/install/ktor-backend/bin/ktor-backend
+web: ./build/install/nicole-georgieva-ktor/bin/nicole-georgieva-ktor

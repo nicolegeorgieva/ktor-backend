@@ -21,7 +21,7 @@ fun main() {
         .start(wait = true)
 }
 
-val toDoS = mutableListOf<String>()
+val toDoList = mutableListOf<String>()
 
 @Serializable
 data class ToDoResponse(
@@ -88,23 +88,25 @@ fun Application.configureRouting() {
         }
 
         get("/todo") {
-            call.respond(ToDoResponse(toDoS))
+            call.respond(ToDoResponse(toDoList))
         }
 
         post("/add-todo") {
             val request = call.receive<AddToDoRequest>()
 
-            toDoS.add(request.task)
+            if (request.task.isNotBlank()) {
+                toDoList.add(request.task)
+            }
 
-            call.respond(ToDoResponse(toDoS))
+            call.respond(ToDoResponse(toDoList))
         }
 
         post("/remove-todo") {
             val removeRequest = call.receive<RemoveToDoRequest>()
 
-            toDoS.removeAt(removeRequest.item)
+            toDoList.removeAt(removeRequest.item)
 
-            call.respond(ToDoResponse(toDoS))
+            call.respond(ToDoResponse(toDoList))
         }
     }
 }
